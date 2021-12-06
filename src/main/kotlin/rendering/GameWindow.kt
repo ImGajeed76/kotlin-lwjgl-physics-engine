@@ -1,8 +1,8 @@
 package rendering
 
 import org.lwjgl.glfw.GLFW.*
-import org.lwjgl.opengl.GL.*
-import org.lwjgl.opengl.GL11.*
+import org.lwjgl.opengl.GL.createCapabilities
+import org.lwjgl.opengl.GL11.glClearColor
 
 
 class GameWindow(var width: Int = 100, var height: Int = 100, var name: String = "Game Window") {
