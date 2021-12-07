@@ -100,6 +100,7 @@ class HelloWorld {
             previous = GLFW.glfwGetTime()
             steps += elapsed
 
+            val SECS_PER_UPDATE = 0
             while (steps >= SECS_PER_UPDATE) {
                 GL11.glClear(GL11.GL_COLOR_BUFFER_BIT or GL11.GL_DEPTH_BUFFER_BIT) // clear the framebuffer
                 GLFW.glfwSwapBuffers(window) // swap the color buffers

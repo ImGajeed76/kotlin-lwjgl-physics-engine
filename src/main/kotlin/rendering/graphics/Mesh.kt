@@ -1,0 +1,66 @@
+package rendering.graphics
+
+import org.lwjgl.opengl.GL15
+import org.lwjgl.opengl.GL20
+import org.lwjgl.opengl.GL30.*
+import org.lwjgl.system.MemoryUtil
+import java.nio.FloatBuffer
+
+class Mesh(var vertices: Array<Vertex>, var indices: IntArray) {
+    var pbo: Int = 0    //position buffer
+    var ibo: Int = 0    //indices buffer
+    var vao: Int = 0    //vertex array object
+    var cbo: Int = 0    //color buffer
+
+    fun create() {
+        vao = glGenVertexArrays()
+        glBindVertexArray(vao)
+
+        val positionBuffer = MemoryUtil.memAllocFloat(vertices.size * 3)
+        val positionData = FloatArray(vertices.size * 3)
+        for (i in vertices.indices) {
+            positionData[i * 3] = vertices[i].getPosition().x
+            positionData[i * 3 + 1] = vertices[i].getPosition().y
+            positionData[i * 3 + 2] = vertices[i].getPosition().z
+        }
+        positionBuffer.put(positionData).flip()
+
+        pbo = storeData(positionBuffer, 0, 3)
+
+        val colorBuffer = MemoryUtil.memAllocFloat(vertices.size * 3)
+        val colorData = FloatArray(vertices.size * 3)
+        for (i in vertices.indices) {
+            colorData[i * 3] = vertices[i].getColor().x
+            colorData[i * 3 + 1] = vertices[i].getColor().y
+            colorData[i * 3 + 2] = vertices[i].getColor().z
+        }
+        colorBuffer.put(colorData).flip()
+
+        cbo = storeData(colorBuffer, 1, 3)
+
+        val indicesBuffer = MemoryUtil.memAllocInt(indices.size)
+        indicesBuffer.put(indices).flip()
+
+        ibo = glGenBuffers()
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo)
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL_STATIC_DRAW)
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0)
+    }
+
+    private fun storeData(buffer: FloatBuffer, index: Int, size: Int): Int {
+        val bufferID = glGenBuffers()
+        glBindBuffer(GL_ARRAY_BUFFER, bufferID)                                                 // Bind buffer
+        glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW)                                   // Write data
+        GL20.glVertexAttribPointer(index, size, GL_FLOAT, false, 0, 0)    // Save data
+        glBindBuffer(GL_ARRAY_BUFFER, 0)                                                  // Unbind buffer
+        return bufferID
+    }
+
+    fun destroy() {
+        GL15.glDeleteBuffers(pbo)
+        GL15.glDeleteBuffers(cbo)
+        GL15.glDeleteBuffers(ibo)
+
+        glDeleteVertexArrays(vao)
+    }
+}

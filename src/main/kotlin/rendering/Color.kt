@@ -1,6 +1,7 @@
 package rendering
 
 import MY_COLORS
+import rendering.maths.Vector3f
 
 class Color(var r: Float = 1F, var g: Float = 1F, var b: Float = 1F, var a: Float = 1F) {
     fun addColor(color: Color, name: String) {
@@ -47,6 +48,10 @@ class Color(var r: Float = 1F, var g: Float = 1F, var b: Float = 1F, var a: Floa
 
     fun cyan(): Color {
         return Color(0F, 1F, 1F)
+    }
+
+    fun toVector3f(): Vector3f {
+        return Vector3f(this.r, this.g, this.b)
     }
 
     // default colors /\
