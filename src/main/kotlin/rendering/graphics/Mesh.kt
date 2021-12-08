@@ -6,13 +6,16 @@ import org.lwjgl.opengl.GL30.*
 import org.lwjgl.system.MemoryUtil
 import java.nio.FloatBuffer
 
-class Mesh(var vertices: Array<Vertex>, var indices: IntArray) {
+class Mesh(var vertices: Array<Vertex>, var indices: IntArray, var material: Material) {
     var pbo: Int = 0    //position buffer
     var ibo: Int = 0    //indices buffer
     var vao: Int = 0    //vertex array object
     var cbo: Int = 0    //color buffer
+    var tbo: Int = 0    //texture buffer
 
     fun create() {
+        material.create()
+
         vao = glGenVertexArrays()
         glBindVertexArray(vao)
 
@@ -38,6 +41,16 @@ class Mesh(var vertices: Array<Vertex>, var indices: IntArray) {
 
         cbo = storeData(colorBuffer, 1, 3)
 
+        val textureBuffer = MemoryUtil.memAllocFloat(vertices.size * 2)
+        val textureData = FloatArray(vertices.size * 2)
+        for (i in vertices.indices) {
+            textureData[i * 2] = vertices[i].getTextureCoord().x
+            textureData[i * 2 + 1] = vertices[i].getTextureCoord().y
+        }
+        textureBuffer.put(textureData).flip()
+
+        tbo = storeData(textureBuffer, 2, 2)
+
         val indicesBuffer = MemoryUtil.memAllocInt(indices.size)
         indicesBuffer.put(indices).flip()
 
@@ -60,7 +73,10 @@ class Mesh(var vertices: Array<Vertex>, var indices: IntArray) {
         GL15.glDeleteBuffers(pbo)
         GL15.glDeleteBuffers(cbo)
         GL15.glDeleteBuffers(ibo)
+        GL15.glDeleteBuffers(tbo)
 
         glDeleteVertexArrays(vao)
+
+        material.destroy()
     }
 }
