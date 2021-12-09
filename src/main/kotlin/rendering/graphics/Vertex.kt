@@ -8,6 +8,10 @@ class Vertex(private var pos: Vector3f, private var color: Vector3f, private var
         return pos
     }
 
+    fun setPosition(vector3f: Vector3f) {
+        pos = vector3f
+    }
+
     fun getColor(): Vector3f {
         return color
     }

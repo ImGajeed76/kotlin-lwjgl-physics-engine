@@ -24,4 +24,8 @@ class Vector2f(var x: Float, var y: Float) {
     private fun toDegrees(angle: Float): Float {
         return (((angle + 360F) % 360F) / 360F) * (PI.toFloat() * 2F)
     }
+
+    override fun toString(): String {
+        return "$x, $y"
+    }
 }
