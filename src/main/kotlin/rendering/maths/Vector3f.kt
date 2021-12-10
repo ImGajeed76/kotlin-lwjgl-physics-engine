@@ -4,7 +4,6 @@ import GAME
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
-import kotlin.math.tan
 
 class Vector3f(var x: Float, var y: Float, var z: Float, var toGWPoint: Boolean = false) {
     var toGameWindowPoint = toGWPoint
@@ -15,16 +14,16 @@ class Vector3f(var x: Float, var y: Float, var z: Float, var toGWPoint: Boolean 
         z = newZ
     }
 
-    fun setAngle(distance: Float, angleX: Float, angleY: Float, angleZ: Float): Vector3f {
+    fun setAngle(distanceX: Float, distanceY: Float, distanceZ: Float, angleX: Float, angleY: Float, angleZ: Float): Vector3f {
 
-        var newAngleX = cos(toDegrees(angleZ)) * distance
-        var newAngleY = sin(toDegrees(angleZ)) * distance
+        var newAngleX = cos(toDegrees(angleZ)) * distanceZ
+        var newAngleY = sin(toDegrees(angleZ)) * distanceZ
 
-        newAngleY += sin(toDegrees(angleX)) * distance
-        var newAngleZ = cos(toDegrees(angleX)) * distance
+        newAngleY += sin(toDegrees(angleX)) * distanceX
+        var newAngleZ = cos(toDegrees(angleX)) * distanceX
 
-        newAngleZ += cos(toDegrees(angleY)) * distance
-        newAngleX += sin(toDegrees(angleY)) * distance
+        newAngleZ += cos(toDegrees(angleY)) * distanceY
+        newAngleX += sin(toDegrees(angleY)) * distanceY
 
         x += newAngleX
         y += newAngleY
@@ -38,8 +37,12 @@ class Vector3f(var x: Float, var y: Float, var z: Float, var toGWPoint: Boolean 
     }
 
     fun toGameWindowPoint(): Vector3f {
-        val newX = (x / GAME.width) * 1
-        val newY = (y / GAME.height) * 1
+        print("$x, $y, $z --> ")
+
+        val newX = (x / GAME.width) * 2
+        val newY = (y / GAME.height) * 2
+
+        println("$newX, $newY, $z")
 
         return Vector3f(newX, newY, z)
     }

@@ -33,12 +33,12 @@ const val SHOW_FPS_IN_TITLE = true
 
 //Graphics
 var vertices: Array<Vertex> = arrayOf(
-    Vertex(Vector3f(0F, 0F, 0F).setAngle(distance = 0.4F, angleX = 0F, angleY = 0F, angleZ = 60F * -0).toWindowPoint(), Color().red().toVector3f(), Vector2f(0F, 0F)),
-    Vertex(Vector3f(0F, 0F, 0F).setAngle(distance = 0.4F, angleX = 0F, angleY = 0F, angleZ = 60F * -1).toWindowPoint(), Color().yellow().toVector3f(), Vector2f(0F, 0F)),
-    Vertex(Vector3f(0F, 0F, 0F).setAngle(distance = 0.4F, angleX = 0F, angleY = 0F, angleZ = 60F * -2).toWindowPoint(), Color().green().toVector3f(), Vector2f(0F, 0F)),
-    Vertex(Vector3f(0F, 0F, 0F).setAngle(distance = 0.4F, angleX = 0F, angleY = 0F, angleZ = 60F * -3).toWindowPoint(), Color().cyan().toVector3f(), Vector2f(0F, 0F)),
-    Vertex(Vector3f(0F, 0F, 0F).setAngle(distance = 0.4F, angleX = 0F, angleY = 0F, angleZ = 60F * -4).toWindowPoint(), Color().blue().toVector3f(), Vector2f(0F, 0F)),
-    Vertex(Vector3f(0F, 0F, 0F).setAngle(distance = 0.4F, angleX = 0F, angleY = 0F, angleZ = 60F * -5).toWindowPoint(), Color().magenta().toVector3f(), Vector2f(0F, 0F)),
+    Vertex(Vector3f(0F, 0F, 0F).setAngle(distanceZ = 250F, angleX = 0F, angleY = 0F, angleZ = 60F * -0, distanceX = 0F, distanceY = 0F).toWindowPoint(), Color().red().toVector3f(), Vector2f(0F, 0F)),
+    Vertex(Vector3f(0F, 0F, 0F).setAngle(distanceZ = 250F, angleX = 0F, angleY = 0F, angleZ = 60F * -1, distanceX = 0F, distanceY = 0F).toWindowPoint(), Color().yellow().toVector3f(), Vector2f(0F, 0F)),
+    Vertex(Vector3f(0F, 0F, 0F).setAngle(distanceZ = 250F, angleX = 0F, angleY = 0F, angleZ = 60F * -2, distanceX = 0F, distanceY = 0F).toWindowPoint(), Color().green().toVector3f(), Vector2f(0F, 0F)),
+    Vertex(Vector3f(0F, 0F, 0F).setAngle(distanceZ = 250F, angleX = 0F, angleY = 0F, angleZ = 60F * -3, distanceX = 0F, distanceY = 0F).toWindowPoint(), Color().cyan().toVector3f(), Vector2f(0F, 0F)),
+    Vertex(Vector3f(0F, 0F, 0F).setAngle(distanceZ = 250F, angleX = 0F, angleY = 0F, angleZ = 60F * -4, distanceX = 0F, distanceY = 0F).toWindowPoint(), Color().blue().toVector3f(), Vector2f(0F, 0F)),
+    Vertex(Vector3f(0F, 0F, 0F).setAngle(distanceZ = 250F, angleX = 0F, angleY = 0F, angleZ = 60F * -5, distanceX = 0F, distanceY = 0F).toWindowPoint(), Color().magenta().toVector3f(), Vector2f(0F, 0F)),
     Vertex(Vector3f(0F, 0F, 0F).toWindowPoint(), Color().white().toVector3f(), Vector2f(0F, 0F)),
 )
 var indices: IntArray = arrayOf(
@@ -73,6 +73,9 @@ fun main() {
 }
 
 fun update() {
+    mesh.destroy()
+    mesh = Mesh(vertices, indices, material)
+    mesh.create()
     renderer.renderMesh(mesh)
     GAME.swapBuffers()
 }
