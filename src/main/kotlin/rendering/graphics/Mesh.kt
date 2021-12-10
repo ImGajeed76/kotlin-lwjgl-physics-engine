@@ -22,12 +22,6 @@ class Mesh(var vertices: Array<Vertex>, var indices: IntArray, var material: Mat
         val positionBuffer = MemoryUtil.memAllocFloat(vertices.size * 3)
         val positionData = FloatArray(vertices.size * 3)
         for (i in vertices.indices) {
-            if (vertices[i].getPosition().toGameWindowPoint) {
-                vertices[i].setPosition(vertices[i].getPosition().toGameWindowPoint())
-            }
-
-            println(vertices[i].getPosition())
-
             positionData[i * 3] = vertices[i].getPosition().x
             positionData[i * 3 + 1] = vertices[i].getPosition().y
             positionData[i * 3 + 2] = vertices[i].getPosition().z

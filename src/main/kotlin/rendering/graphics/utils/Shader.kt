@@ -1,6 +1,11 @@
 package rendering.graphics.utils
 
 import org.lwjgl.opengl.GL20.*
+import org.lwjgl.system.MemoryUtil
+import rendering.maths.Matrix4f
+import rendering.maths.Vector2f
+import rendering.maths.Vector3f
+import java.nio.FloatBuffer
 
 class Shader(vertexPath: String, fragmentPath: String) {
     private val fileUtils = FileUtils()
@@ -57,6 +62,37 @@ class Shader(vertexPath: String, fragmentPath: String) {
         glDeleteShader(fragmentID)
     }
 
+    fun getUniformLocation(name: String): Int {
+        return glGetUniformLocation(programID, name)
+    }
+
+    fun setUniform(name: String, value: Float) {
+        glUniform1f(getUniformLocation(name), value)
+    }
+
+    fun setUniform(name: String, value: Int) {
+        glUniform1i(getUniformLocation(name), value)
+    }
+
+    fun setUniform(name: String, value: Boolean) {
+        glUniform1i(getUniformLocation(name), value.toInt())
+    }
+
+    fun setUniform(name: String, value: Vector2f) {
+        glUniform2f(getUniformLocation(name), value.x, value.y)
+    }
+
+    fun setUniform(name: String, value: Vector3f) {
+        glUniform3f(getUniformLocation(name), value.x, value.y, value.z)
+    }
+
+    fun setUniform(name: String, value: Matrix4f) {
+        val matrix: FloatBuffer = MemoryUtil.memAllocFloat(Matrix4f().size * Matrix4f().size)
+        matrix.put(value.getAll()).flip()
+        glUniformMatrix4fv(getUniformLocation(name), true, matrix)
+
+    }
+
     fun bind() {
         glUseProgram(programID)
     }
@@ -66,6 +102,19 @@ class Shader(vertexPath: String, fragmentPath: String) {
     }
 
     fun destroy() {
+        glDetachShader(programID, vertexID)
+        glDetachShader(programID, fragmentID)
+        glDeleteProgram(vertexID)
+        glDeleteProgram(fragmentID)
         glDeleteProgram(programID)
+    }
+}
+
+private fun Boolean.toInt(): Int {
+    return if (this) {
+        1
+    }
+    else {
+        0
     }
 }

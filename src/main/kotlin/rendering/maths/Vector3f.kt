@@ -5,9 +5,7 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
-class Vector3f(var x: Float, var y: Float, var z: Float, var toGWPoint: Boolean = false) {
-    var toGameWindowPoint = toGWPoint
-
+class Vector3f(var x: Float, var y: Float, var z: Float) {
     fun set(newX: Float, newY: Float, newZ: Float) {
         x = newX
         y = newY
@@ -30,21 +28,6 @@ class Vector3f(var x: Float, var y: Float, var z: Float, var toGWPoint: Boolean 
         z += newAngleZ
 
         return Vector3f(x, y, z)
-    }
-
-    fun toWindowPoint(): Vector3f {
-        return Vector3f(x, y, z, true)
-    }
-
-    fun toGameWindowPoint(): Vector3f {
-        print("$x, $y, $z --> ")
-
-        val newX = (x / GAME.width) * 2
-        val newY = (y / GAME.height) * 2
-
-        println("$newX, $newY, $z")
-
-        return Vector3f(newX, newY, z)
     }
 
     private fun toDegrees(angle: Float): Float {
