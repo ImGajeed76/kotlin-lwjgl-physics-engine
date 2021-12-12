@@ -49,7 +49,7 @@ class Matrix4f {
 
         val sin = sin(Math.toRadians(angle.toDouble())).toFloat()
         val cos = cos(Math.toRadians(angle.toDouble())).toFloat()
-        val invCos = cos * -1
+        val invCos = 1 - cos
 
         result.set(0, 0, cos + axis.x * axis.x * invCos)
         result.set(0, 1, axis.x * axis.y * invCos - axis.z * sin)
@@ -88,8 +88,9 @@ class Matrix4f {
         val scaleMatrix = Matrix4f().scale(scale)
 
         val rotationMatrix = Matrix4f().multiply(rotXMatrix, Matrix4f().multiply(rotYMatrix, rotZMatrix))
+        val result = Matrix4f().multiply(translationMatrix, Matrix4f().multiply(rotationMatrix, scaleMatrix))
 
-        return Matrix4f().multiply(translationMatrix, Matrix4f().multiply(rotationMatrix, scaleMatrix))
+        return result
     }
 
     fun multiply(matrix: Matrix4f, other: Matrix4f): Matrix4f {
@@ -97,12 +98,11 @@ class Matrix4f {
 
         for (i in 0 until result.size) {
             for (j in 0 until result.size) {
-                result.set(
-                    i, j, matrix.get(i, 0) * other.get(0, j) +
-                            matrix.get(i, 1) * other.get(1, j) +
-                            matrix.get(i, 2) * other.get(2, j) +
-                            matrix.get(i, 3) * other.get(3, j)
-                )
+                var value = 0F
+                for (k in 0 until result.size) {
+                    value += matrix.get(i, j) * other.get(j, k)
+                }
+                result.set(i, j, value)
             }
         }
 
@@ -119,5 +119,17 @@ class Matrix4f {
 
     fun getAll(): FloatArray {
         return elements
+    }
+
+    override fun toString(): String {
+        var result = ""
+        for (i in 0 until size) {
+            var row = ""
+            for (j in 0 until size) {
+                row += "${get(i, j)}, "
+            }
+            result += row + "\n"
+        }
+        return result
     }
 }

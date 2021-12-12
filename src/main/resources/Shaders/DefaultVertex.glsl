@@ -7,10 +7,10 @@ in vec2 textureCoord;
 out vec3 passColor;
 out vec2 passTextureCoord;
 
-uniform mat4 transfer;
+uniform mat4 model;
 
 void main() {
-	gl_Position = vec4(position, 1.0) * transfer;
+	gl_Position = vec4(position, 1.0) * model;
 	passColor = color;
 	passTextureCoord = textureCoord;
 }

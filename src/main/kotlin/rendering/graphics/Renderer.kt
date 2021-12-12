@@ -20,7 +20,7 @@ class Renderer(private val shader: Shader) {
         glBindTexture(GL_TEXTURE_2D, gameObject.mesh.material.getTextureID())
 
         shader.bind()
-        shader.setUniform("transfer", Matrix4f().transform(gameObject.position, gameObject.rotation, gameObject.scale))
+        shader.setUniform("model", Matrix4f().transform(gameObject.position, gameObject.rotation, gameObject.scale))
         GL11.glDrawElements(GL_TRIANGLES, gameObject.mesh.indices.size, GL_UNSIGNED_INT, 0)
         shader.unbind()
 

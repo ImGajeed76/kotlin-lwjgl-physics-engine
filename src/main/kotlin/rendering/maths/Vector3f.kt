@@ -39,15 +39,15 @@ class Vector3f(var x: Float, var y: Float, var z: Float) {
     }
 
     fun add(x: Float, y: Float, z: Float){
-        this.x = x
-        this.y = y
-        this.z = z
+        this.x += x
+        this.y += y
+        this.z += z
     }
 
 
     fun add(vector3f: Vector3f){
-        this.x = vector3f.x
-        this.y = vector3f.y
-        this.z = vector3f.z
+        this.x += vector3f.x
+        this.y += vector3f.y
+        this.z += vector3f.z
     }
 }
