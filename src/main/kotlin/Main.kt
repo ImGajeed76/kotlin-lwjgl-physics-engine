@@ -6,9 +6,10 @@ import rendering.graphics.Material
 import rendering.graphics.Mesh
 import rendering.graphics.Renderer
 import rendering.graphics.Vertex
-import rendering.graphics.utils.Shader
+import rendering.graphics.Shader
 import rendering.maths.Vector2f
 import rendering.maths.Vector3f
+import rendering.objects.GameObject
 import java.awt.Dimension
 import java.awt.Toolkit
 import java.util.*
@@ -54,6 +55,7 @@ var material = Material("Textures/cool.png")
 
 var mesh = Mesh(vertices, indices, material)
 var shader = Shader("Shaders/DefaultVertex.glsl", "Shaders/DefaultFragment.glsl")
+var gameObject = GameObject(Vector3f(0F, 0F, 0F), Vector3f(0F, 0F, 0F), Vector3f(1F, 1F, 1F), mesh)
 var renderer = Renderer(shader)
 
 fun main() {
@@ -74,7 +76,8 @@ fun main() {
 }
 
 fun update() {
-    renderer.renderMesh(mesh)
+    gameObject.update()
+    renderer.renderGameObject(gameObject)
     GAME.swapBuffers()
 }
 

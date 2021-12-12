@@ -1,7 +1,8 @@
-package rendering.graphics.utils
+package rendering.graphics
 
 import org.lwjgl.opengl.GL20.*
 import org.lwjgl.system.MemoryUtil
+import rendering.graphics.utils.FileUtils
 import rendering.maths.Matrix4f
 import rendering.maths.Vector2f
 import rendering.maths.Vector3f

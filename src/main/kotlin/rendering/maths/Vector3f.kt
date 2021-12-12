@@ -6,10 +6,10 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 class Vector3f(var x: Float, var y: Float, var z: Float) {
-    fun set(newX: Float, newY: Float, newZ: Float) {
-        x = newX
-        y = newY
-        z = newZ
+    fun set(x: Float, y: Float, z: Float) {
+        this.x = x
+        this.y = y
+        this.z = z
     }
 
     fun setAngle(distanceX: Float, distanceY: Float, distanceZ: Float, angleX: Float, angleY: Float, angleZ: Float): Vector3f {
@@ -36,5 +36,18 @@ class Vector3f(var x: Float, var y: Float, var z: Float) {
 
     override fun toString(): String {
         return "$x, $y, $z"
+    }
+
+    fun add(x: Float, y: Float, z: Float){
+        this.x = x
+        this.y = y
+        this.z = z
+    }
+
+
+    fun add(vector3f: Vector3f){
+        this.x = vector3f.x
+        this.y = vector3f.y
+        this.z = vector3f.z
     }
 }
