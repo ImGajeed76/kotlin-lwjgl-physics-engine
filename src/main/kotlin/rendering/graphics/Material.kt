@@ -1,11 +1,8 @@
 package rendering.graphics
 
 import RESOURCE_FOLDER_PATH
-import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL13
-import java.io.File
 import java.io.IOException
-import kotlin.system.exitProcess
 
 class Material(private val path: String) {
     private var fullPath = ""

@@ -2,6 +2,7 @@ package rendering.maths
 
 import kotlin.math.cos
 import kotlin.math.sin
+import kotlin.math.tan
 
 class Matrix4f {
     var size: Int = 4
@@ -80,7 +81,40 @@ class Matrix4f {
         return result
     }
 
+    fun projection(fov: Float, aspect: Float, near: Float, far: Float): Matrix4f {
+        val result = Matrix4f().identity()
+
+        val tanFov: Float = tan(Math.toRadians((fov / 2).toDouble())).toFloat()
+        val range: Float = far - near
+
+        result.set(0, 0, 1 / (aspect * tanFov))
+        result.set(1, 1, 1 / tanFov)
+        result.set(2, 2, -((far + near) / range))
+        result.set(2, 3, -1F)
+        result.set(3, 2, -((2 * far * near) / range))
+        result.set(3, 3, 0F)
+
+        return result
+    }
+
+    fun view(positionCam: Vector3f, rotationCam: Vector3f): Matrix4f {
+        val result: Matrix4f
+
+        val negative = Vector3f(-positionCam.x, -positionCam.y, -positionCam.z)
+        val translationMatrix = Matrix4f().translate(negative)
+        val rotXMatrix = Matrix4f().rotate(rotationCam.x, Vector3f(1F, 0F, 0F))
+        val rotYMatrix = Matrix4f().rotate(rotationCam.y, Vector3f(0F, 1F, 0F))
+        val rotZMatrix = Matrix4f().rotate(rotationCam.z, Vector3f(0F, 0F, 1F))
+
+        val rotationMatrix = Matrix4f().multiply(rotZMatrix, Matrix4f().multiply(rotYMatrix, rotXMatrix))
+        result = Matrix4f().multiply(translationMatrix, rotationMatrix)
+
+        return result
+    }
+
     fun transform(position: Vector3f, rotation: Vector3f, scale: Vector3f): Matrix4f {
+        val result: Matrix4f
+
         val translationMatrix = Matrix4f().translate(position)
         val rotXMatrix = Matrix4f().rotate(rotation.x, Vector3f(1F, 0F, 0F))
         val rotYMatrix = Matrix4f().rotate(rotation.y, Vector3f(0F, 1F, 0F))
@@ -88,7 +122,7 @@ class Matrix4f {
         val scaleMatrix = Matrix4f().scale(scale)
 
         val rotationMatrix = Matrix4f().multiply(rotXMatrix, Matrix4f().multiply(rotYMatrix, rotZMatrix))
-        val result = Matrix4f().multiply(translationMatrix, Matrix4f().multiply(rotationMatrix, scaleMatrix))
+        result = Matrix4f().multiply(translationMatrix, Matrix4f().multiply(rotationMatrix, scaleMatrix))
 
         return result
     }

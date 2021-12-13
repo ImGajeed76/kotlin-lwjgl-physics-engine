@@ -1,8 +1,9 @@
 package rendering.graphics
 
+import CAMERA
+import GAME
 import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL30.*
-import rendering.graphics.Shader
 import rendering.maths.Matrix4f
 import rendering.objects.GameObject
 
@@ -21,6 +22,8 @@ class Renderer(private val shader: Shader) {
 
         shader.bind()
         shader.setUniform("model", Matrix4f().transform(gameObject.position, gameObject.rotation, gameObject.scale))
+        shader.setUniform("projection", GAME.projectionMatrix)
+        shader.setUniform("view", Matrix4f().view(CAMERA.position, CAMERA.rotation))
         GL11.glDrawElements(GL_TRIANGLES, gameObject.mesh.indices.size, GL_UNSIGNED_INT, 0)
         shader.unbind()
 

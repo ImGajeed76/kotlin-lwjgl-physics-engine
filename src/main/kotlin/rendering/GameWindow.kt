@@ -1,7 +1,11 @@
 package rendering
 
+import ASPECT
+import FAR
+import FOV
 import FPS_THROTTLE
 import FULLSCREEN
+import NEAR
 import SCREEN_HEIGHT
 import SCREEN_WIDTH
 import SHOW_FPS_IN_TITLE
@@ -11,11 +15,14 @@ import org.lwjgl.glfw.GLFWWindowSizeCallback
 import org.lwjgl.opengl.GL.createCapabilities
 import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL11.glClearColor
+import rendering.maths.Matrix4f
 
 
 class GameWindow(var width: Int = 100, var height: Int = 100, var name: String = "Game Window") {
     var window = glfwCreateWindow(width, height, name, 0, 0)
     var input = Input()
+
+    var projectionMatrix: Matrix4f = Matrix4f()
 
     private var clearColor: Color = Color().black()
     private var windowOpen = true
@@ -69,6 +76,9 @@ class GameWindow(var width: Int = 100, var height: Int = 100, var name: String =
     }
 
     fun update() {
+        ASPECT = width.toFloat() / height.toFloat()
+        projectionMatrix = Matrix4f().projection(FOV, ASPECT, NEAR, FAR)
+
         updateFPS()
         checkExit()
         input.update()
