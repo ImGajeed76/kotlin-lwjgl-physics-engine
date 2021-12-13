@@ -16,6 +16,10 @@ class Input {
     private var mouseX: Double = 0.0
     private var mouseY: Double = 0.0
 
+    fun setCursorPos(window: Long, x: Double, y: Double) {
+        GLFW.glfwSetCursorPos(window, x, y)
+    }
+
     private var keyboard: GLFWKeyCallback = object : GLFWKeyCallback() {
         override fun invoke(window: Long, key: Int, scancode: Int, action: Int, mods: Int) {
             keys[key] = action

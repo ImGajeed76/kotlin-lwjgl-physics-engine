@@ -22,8 +22,8 @@ class Renderer(private val shader: Shader) {
 
         shader.bind()
         shader.setUniform("model", Matrix4f().transform(gameObject.position, gameObject.rotation, gameObject.scale))
-        shader.setUniform("projection", GAME.projectionMatrix)
         shader.setUniform("view", Matrix4f().view(CAMERA.position, CAMERA.rotation))
+        shader.setUniform("projection", GAME.projectionMatrix)
         GL11.glDrawElements(GL_TRIANGLES, gameObject.mesh.indices.size, GL_UNSIGNED_INT, 0)
         shader.unbind()
 

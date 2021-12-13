@@ -42,15 +42,22 @@ const val SHOW_FPS_IN_TITLE = true
 
 //Graphics
 var vertices: Array<Vertex> = arrayOf(
-    Vertex(Vector3f(0.1F, 0.5F, 0F), Color().red().toVector3f(), Vector2f(0F, 0F)),
-    Vertex(Vector3f(0.1F, 0.1F, 0F), Color().yellow().toVector3f(), Vector2f(0F, 1F)),
-    Vertex(Vector3f(0.5F, 0.1F, 0F), Color().green().toVector3f(), Vector2f(1F, 1F)),
-    Vertex(Vector3f(0.5F, 0.5F, 0F), Color().cyan().toVector3f(), Vector2f(1F, 0F)),
+    Vertex(Vector3f(-0.5F, 0.5F, 0F), Color().red().toVector3f(), Vector2f(0F, 0F)),
+    Vertex(Vector3f(-0.5F, -0.5F,0F), Color().yellow().toVector3f(), Vector2f(0F, 1F)),
+    Vertex(Vector3f(0.5F, -0.5F, 0F), Color().green().toVector3f(), Vector2f(1F, 1F)),
+    Vertex(Vector3f(0.5F, 0.5F,  0F), Color().cyan().toVector3f(), Vector2f(1F, 0F)),
 
+    Vertex(Vector3f(-0.5F, -0.5F, 0F), Color().red().toVector3f(), Vector2f(0F, 0F)),
+    Vertex(Vector3f(-0.5F, -0.5F, -1F), Color().yellow().toVector3f(), Vector2f(0F, 1F)),
+    Vertex(Vector3f(-0.5F, 0.5F, -1F), Color().green().toVector3f(), Vector2f(1F, 1F)),
+    Vertex(Vector3f(-0.5F, 0.5F, 0F), Color().cyan().toVector3f(), Vector2f(1F, 0F)),
 )
 var indices: IntArray = arrayOf(
     0, 1, 2,
-    0, 3, 2
+    0, 3, 2,
+
+    4, 5, 6,
+    4, 7, 6,
 ).toIntArray()
 
 var material = Material("Textures/cool.png")

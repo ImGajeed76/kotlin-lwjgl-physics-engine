@@ -1,6 +1,7 @@
 package rendering
 
 import ASPECT
+import CAMERA
 import FAR
 import FOV
 import FPS_THROTTLE
@@ -16,6 +17,8 @@ import org.lwjgl.opengl.GL.createCapabilities
 import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL11.glClearColor
 import rendering.maths.Matrix4f
+import kotlin.math.cos
+import kotlin.math.sin
 
 
 class GameWindow(var width: Int = 100, var height: Int = 100, var name: String = "Game Window") {
@@ -91,6 +94,50 @@ class GameWindow(var width: Int = 100, var height: Int = 100, var name: String =
         showFullscreen()
     }
 
+    fun updateCam() {
+        if (input.isKeyDown(GLFW_KEY_W)) {
+            //CAMERA.position.x -= CAMERA.cameraSpeed * sin(-CAMERA.rotation.y)
+            //CAMERA.position.y -= CAMERA.cameraSpeed * sin(-CAMERA.rotation.x)
+            //CAMERA.position.z -= CAMERA.cameraSpeed * -cos(-CAMERA.rotation.y)
+            CAMERA.position.z -= CAMERA.cameraSpeed
+        }
+
+        if (input.isKeyDown(GLFW_KEY_S)) {
+            //CAMERA.position.x += CAMERA.cameraSpeed * sin(-CAMERA.rotation.y)
+            //CAMERA.position.y += CAMERA.cameraSpeed * sin(-CAMERA.rotation.x)
+            //CAMERA.position.z += CAMERA.cameraSpeed * -cos(-CAMERA.rotation.y)
+            CAMERA.position.z += CAMERA.cameraSpeed
+        }
+
+        if (input.isKeyDown(GLFW_KEY_A)) {
+            //CAMERA.position.z -= CAMERA.cameraSpeed * sin(-CAMERA.rotation.y)
+            //CAMERA.position.x -= CAMERA.cameraSpeed * -cos(-CAMERA.rotation.y)
+            CAMERA.position.x -= CAMERA.cameraSpeed
+        }
+
+        if (input.isKeyDown(GLFW_KEY_D)) {
+            //CAMERA.position.z += CAMERA.cameraSpeed * sin(-CAMERA.rotation.y)
+            //CAMERA.position.x += CAMERA.cameraSpeed * -cos(-CAMERA.rotation.y)
+            CAMERA.position.x += CAMERA.cameraSpeed
+        }
+
+        if (input.isKeyDown(GLFW_KEY_LEFT_SHIFT) || input.isKeyDown(GLFW_KEY_Q)) {
+            CAMERA.position.y -= CAMERA.cameraSpeed
+        }
+
+        if (input.isKeyDown(GLFW_KEY_SPACE) || input.isKeyDown(GLFW_KEY_E)) {
+            CAMERA.position.y += CAMERA.cameraSpeed
+        }
+
+        val mouseX = input.getMouseX() - width / 2
+        val mouseY = input.getMouseY() - height / 2
+
+        CAMERA.rotation.x += (mouseX * CAMERA.cameraSpeed).toFloat()
+        CAMERA.rotation.y += (mouseY * CAMERA.cameraSpeed).toFloat()
+
+        input.setCursorPos(window, (width / 2).toDouble(), (height / 2).toDouble())
+    }
+
     fun swapBuffers() {
         glfwSwapBuffers(window)
     }
@@ -130,7 +177,7 @@ class GameWindow(var width: Int = 100, var height: Int = 100, var name: String =
     }
 
     private fun changeFullscreen() {
-        if (input.isKeyPressed(GLFW_KEY_F11)) {
+        if (input.isKeyPressed(GLFW_KEY_F11) || input.isKeyPressed(GLFW_KEY_F)) {
             FULLSCREEN = !FULLSCREEN
             setFullscreen(FULLSCREEN)
         }

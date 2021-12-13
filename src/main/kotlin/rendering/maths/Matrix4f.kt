@@ -65,6 +65,48 @@ class Matrix4f {
         return result
     }
 
+    fun rotateX(angle: Float): Matrix4f {
+        val result = Matrix4f().identity()
+
+        val sin = sin(Math.toRadians(angle.toDouble())).toFloat()
+        val cos = cos(Math.toRadians(angle.toDouble())).toFloat()
+
+        result.set(1, 1, cos)
+        result.set(2, 1, -sin)
+        result.set(1, 2, sin)
+        result.set(2, 2, cos)
+
+        return result
+    }
+
+    fun rotateY(angle: Float): Matrix4f {
+        val result = Matrix4f().identity()
+
+        val sin = sin(Math.toRadians(angle.toDouble())).toFloat()
+        val cos = cos(Math.toRadians(angle.toDouble())).toFloat()
+
+        result.set(0, 0, cos)
+        result.set(2, 0, sin)
+        result.set(0, 2, -sin)
+        result.set(2, 2, cos)
+
+        return result
+    }
+
+    fun rotateZ(angle: Float): Matrix4f {
+        val result = Matrix4f().identity()
+
+        val sin = sin(Math.toRadians(angle.toDouble())).toFloat()
+        val cos = cos(Math.toRadians(angle.toDouble())).toFloat()
+
+        result.set(0, 0, cos)
+        result.set(1, 0, -sin)
+        result.set(0, 1, sin)
+        result.set(1, 1, cos)
+
+        return result
+    }
+
     fun scale(scalar: Vector3f): Matrix4f {
         // Creates a Matrix like this:
         // x000
@@ -122,7 +164,7 @@ class Matrix4f {
         val scaleMatrix = Matrix4f().scale(scale)
 
         val rotationMatrix = Matrix4f().multiply(rotXMatrix, Matrix4f().multiply(rotYMatrix, rotZMatrix))
-        result = Matrix4f().multiply(translationMatrix, Matrix4f().multiply(rotationMatrix, scaleMatrix))
+        result = Matrix4f().multiply(scaleMatrix, Matrix4f().multiply(rotationMatrix, translationMatrix))
 
         return result
     }
